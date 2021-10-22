@@ -30,4 +30,16 @@ export default {
   margin: 0;
   padding: 0;
 }
+
+.container {
+  min-height: 250px;
+  margin: 46px;
+}
+
+.container h1 {
+  font-size: 42px;
+  text-align: center;
+
+  margin-bottom: 28px;
+}
 </style>
