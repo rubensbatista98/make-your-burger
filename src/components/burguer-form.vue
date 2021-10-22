@@ -15,38 +15,39 @@
     <div class="input-container">
       <label for="bread">Escolha pão:</label>
 
-      <select name="bread" id="bread" v-model="bread">
+      <select v-if="!!breads.length" name="bread" id="bread" v-model="bread">
         <option value="">Selecione o pão</option>
-        <option value="whole-wheat">Integral</option>
+
+        <option v-for="bread in breads" :key="bread.id" :value="bread.tipo">
+          {{ bread.tipo }}
+        </option>
       </select>
     </div>
 
     <div class="input-container">
       <label for="meat">Escolha a carne do seu Burguer:</label>
 
-      <select name="meat" id="meat" v-model="meat">
+      <select v-if="!!meats.length" name="meat" id="meat" v-model="meat">
         <option value="">Selecione o tipo de carne</option>
-        <option value="beef">Bife</option>
+
+        <option v-for="meat in meats" :key="meat.id" :value="meat.tipo">
+          {{ meat.tipo }}
+        </option>
       </select>
     </div>
 
-    <div class="extras-container">
+    <div v-if="!!extras.length" class="extras-container">
       <p class="label">Selecione os opcionais:</p>
 
       <div class="extras-wrapper">
-        <label>
-          <input type="checkbox" name="salami" v-model="extras" />
-          Salame
-        </label>
-
-        <label>
-          <input type="checkbox" name="salami" v-model="extras" />
-          Salame
-        </label>
-
-        <label>
-          <input type="checkbox" name="salami" v-model="extras" />
-          Salame
+        <label v-for="extra in extras" :key="extra.id">
+          <input
+            type="checkbox"
+            :name="extra.tipo"
+            v-model="selectedExtras"
+            :value="extra.tipo"
+          />
+          {{ extra.tipo }}
         </label>
       </div>
     </div>
@@ -58,6 +59,26 @@
 <script>
 export default {
   name: "BurguerForm",
+  data() {
+    return {
+      breads: [],
+      meats: [],
+      extras: [],
+    };
+  },
+  methods: {
+    async getIngrendients() {
+      const response = await fetch("http://localhost:3000/ingredientes");
+      const data = await response.json();
+
+      this.breads = data.paes;
+      this.meats = data.carnes;
+      this.extras = data.opcionais;
+    },
+  },
+  mounted() {
+    this.getIngrendients();
+  },
 };
 </script>
 
