@@ -1,5 +1,5 @@
 <template>
-  <NavBar />
+  <NavBar :logoSrc="logoSrc" :logoAlt="logoAlt" />
   <router-view />
   <Footer />
 </template>
@@ -13,6 +13,12 @@ export default {
   components: {
     NavBar,
     Footer,
+  },
+  data() {
+    return {
+      logoSrc: "/img/logo.png",
+      logoAlt: "Logo da faça seu hambúrguer",
+    };
   },
 };
 </script>
