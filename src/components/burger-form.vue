@@ -108,7 +108,7 @@ export default {
         carne: this.choosenMeat,
         nome: this.name,
         opcionais: Array.from(this.choosenExtras),
-        status: "solicitado",
+        status: "Solicitado",
       };
 
       await fetch("http://localhost:3000/burgers", {

@@ -79,18 +79,6 @@
   ],
   "burgers": [
     {
-      "nome": "Matheus Battisti",
-      "carne": "Picanha",
-      "pao": "Italiano Branco",
-      "opcionais": [
-        "Bacon",
-        "Salame",
-        "Cebola roxa"
-      ],
-      "status": "Finalizado",
-      "id": 1
-    },
-    {
       "nome": "João Coelho",
       "carne": "Maminha",
       "pao": "3 Queijos",
@@ -98,33 +86,8 @@
         "Salame",
         "Cebola roxa"
       ],
-      "status": "Solicitado",
+      "status": "Em produção",
       "id": 4
-    },
-    {
-      "pao": "Integral",
-      "carne": "Veggie burger",
-      "nome": "Rubens",
-      "opcionais": [
-        "Cheddar",
-        "Tomate",
-        "Cebola roxa"
-      ],
-      "status": "solicitado",
-      "id": 5
-    },
-    {
-      "pao": "Italiano Branco",
-      "carne": "Alcatra",
-      "nome": "Lucas",
-      "opcionais": [
-        "Bacon",
-        "Salame",
-        "Tomate",
-        "Cebola roxa"
-      ],
-      "status": "solicitado",
-      "id": 6
     }
   ]
 }
