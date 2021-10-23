@@ -1,69 +1,83 @@
 <template>
-  <form class="burger-form" @submit="createBurger">
-    <div class="input-container">
-      <label for="name">Nome:</label>
+  <div>
+    <Message v-show="message" :message="message" />
 
-      <input
-        type="text"
-        name="name"
-        id="name"
-        v-model="name"
-        placeholder="Digite o seu nome"
-      />
-    </div>
+    <form class="burger-form" @submit="createBurger">
+      <div class="input-container">
+        <label for="name">Nome:</label>
 
-    <div class="input-container">
-      <label for="bread">Escolha pão:</label>
-
-      <select
-        v-if="!!breads.length"
-        name="bread"
-        id="bread"
-        v-model="choosenBread"
-      >
-        <option value="">Selecione o pão</option>
-
-        <option v-for="bread in breads" :key="bread.id" :value="bread.tipo">
-          {{ bread.tipo }}
-        </option>
-      </select>
-    </div>
-
-    <div class="input-container">
-      <label for="meat">Escolha a carne do seu Burger:</label>
-
-      <select v-if="!!meats.length" name="meat" id="meat" v-model="choosenMeat">
-        <option value="">Selecione o tipo de carne</option>
-
-        <option v-for="meat in meats" :key="meat.id" :value="meat.tipo">
-          {{ meat.tipo }}
-        </option>
-      </select>
-    </div>
-
-    <div v-if="!!extras.length" class="extras-container">
-      <p class="label">Selecione os opcionais:</p>
-
-      <div class="extras-wrapper">
-        <label v-for="extra in extras" :key="extra.id">
-          <input
-            type="checkbox"
-            name="extras"
-            v-model="choosenExtras"
-            :value="extra.tipo"
-          />
-          {{ extra.tipo }}
-        </label>
+        <input
+          type="text"
+          name="name"
+          id="name"
+          v-model="name"
+          placeholder="Digite o seu nome"
+        />
       </div>
-    </div>
 
-    <button type="submit" class="button">Criar meu burger</button>
-  </form>
+      <div class="input-container">
+        <label for="bread">Escolha pão:</label>
+
+        <select
+          v-if="!!breads.length"
+          name="bread"
+          id="bread"
+          v-model="choosenBread"
+        >
+          <option value="">Selecione o pão</option>
+
+          <option v-for="bread in breads" :key="bread.id" :value="bread.tipo">
+            {{ bread.tipo }}
+          </option>
+        </select>
+      </div>
+
+      <div class="input-container">
+        <label for="meat">Escolha a carne do seu Burger:</label>
+
+        <select
+          v-if="!!meats.length"
+          name="meat"
+          id="meat"
+          v-model="choosenMeat"
+        >
+          <option value="">Selecione o tipo de carne</option>
+
+          <option v-for="meat in meats" :key="meat.id" :value="meat.tipo">
+            {{ meat.tipo }}
+          </option>
+        </select>
+      </div>
+
+      <div v-if="!!extras.length" class="extras-container">
+        <p class="label">Selecione os opcionais:</p>
+
+        <div class="extras-wrapper">
+          <label v-for="extra in extras" :key="extra.id">
+            <input
+              type="checkbox"
+              name="extras"
+              v-model="choosenExtras"
+              :value="extra.tipo"
+            />
+            {{ extra.tipo }}
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" class="button">Criar meu burger</button>
+    </form>
+  </div>
 </template>
 
 <script>
+import Message from "@/components/message.vue";
+
 export default {
   name: "BurgerForm",
+  components: {
+    Message,
+  },
   data() {
     return {
       breads: [],
@@ -73,6 +87,7 @@ export default {
       choosenMeat: "",
       choosenExtras: [],
       name: "",
+      message: "",
     };
   },
   methods: {
@@ -104,10 +119,16 @@ export default {
         },
       });
 
+      this.message = "Pedido realizado com sucesso!";
+
       this.choosenBread = "";
       this.choosenMeat = "";
       this.choosenExtras = [];
       this.name = "";
+
+      setTimeout(() => {
+        this.message = "";
+      }, 3000);
     },
   },
   mounted() {
