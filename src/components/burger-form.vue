@@ -1,5 +1,5 @@
 <template>
-  <form class="burguer-form">
+  <form class="burger-form" @submit="createBurger">
     <div class="input-container">
       <label for="name">Nome:</label>
 
@@ -15,7 +15,12 @@
     <div class="input-container">
       <label for="bread">Escolha pão:</label>
 
-      <select v-if="!!breads.length" name="bread" id="bread" v-model="bread">
+      <select
+        v-if="!!breads.length"
+        name="bread"
+        id="bread"
+        v-model="choosenBread"
+      >
         <option value="">Selecione o pão</option>
 
         <option v-for="bread in breads" :key="bread.id" :value="bread.tipo">
@@ -25,9 +30,9 @@
     </div>
 
     <div class="input-container">
-      <label for="meat">Escolha a carne do seu Burguer:</label>
+      <label for="meat">Escolha a carne do seu Burger:</label>
 
-      <select v-if="!!meats.length" name="meat" id="meat" v-model="meat">
+      <select v-if="!!meats.length" name="meat" id="meat" v-model="choosenMeat">
         <option value="">Selecione o tipo de carne</option>
 
         <option v-for="meat in meats" :key="meat.id" :value="meat.tipo">
@@ -43,8 +48,8 @@
         <label v-for="extra in extras" :key="extra.id">
           <input
             type="checkbox"
-            :name="extra.tipo"
-            v-model="selectedExtras"
+            name="extras"
+            v-model="choosenExtras"
             :value="extra.tipo"
           />
           {{ extra.tipo }}
@@ -52,18 +57,22 @@
       </div>
     </div>
 
-    <button type="submit" class="button">Criar meu burguer</button>
+    <button type="submit" class="button">Criar meu burger</button>
   </form>
 </template>
 
 <script>
 export default {
-  name: "BurguerForm",
+  name: "BurgerForm",
   data() {
     return {
       breads: [],
       meats: [],
       extras: [],
+      choosenBread: "",
+      choosenMeat: "",
+      choosenExtras: [],
+      name: "",
     };
   },
   methods: {
@@ -75,6 +84,31 @@ export default {
       this.meats = data.carnes;
       this.extras = data.opcionais;
     },
+
+    async createBurger(event) {
+      event.preventDefault();
+
+      const data = {
+        pao: this.choosenBread,
+        carne: this.choosenMeat,
+        nome: this.name,
+        opcionais: Array.from(this.choosenExtras),
+        status: "solicitado",
+      };
+
+      await fetch("http://localhost:3000/burgers", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      this.choosenBread = "";
+      this.choosenMeat = "";
+      this.choosenExtras = [];
+      this.name = "";
+    },
   },
   mounted() {
     this.getIngrendients();
@@ -83,7 +117,7 @@ export default {
 </script>
 
 <style scoped>
-.burguer-form {
+.burger-form {
   max-width: 400px;
   margin: 0 auto;
 }
